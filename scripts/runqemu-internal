@@ -68,6 +68,9 @@ else
         "qemuzynq")
             mem_size=1024
             ;;
+        "cubieboard")
+            mem_size=1024
+            ;;
         *)
             mem_size=64
             ;;
@@ -307,6 +310,7 @@ case "$MACHINE" in
     "qemux86") ;;
     "qemux86-64") ;;
     "qemuzynq") ;;
+    "cubieboard") ;;
     "akita") ;;
     "spitz") ;;
     *)
@@ -602,6 +606,16 @@ if [ "$MACHINE" = "qemuzynq" ]; then
     if [ "${FSTYPE:0:3}" = "ext" -o "${FSTYPE:0:4}" = "cpio" ]; then
         KERNCMDLINE="earlyprintk root=/dev/ram rw"
         QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS -initrd $ROOTFS"
+    fi
+fi
+
+if [ "$MACHINE" = "cubieboard" ]; then
+    #QEMU=qemu-system-arm
+    QEMU=/home/pcrost/gancho/qemu/arm-softmmu/qemu-system-arm
+    QEMU_SYSTEM_OPTIONS="-M cubieboard -serial mon:stdio -dtb $KERNEL-sun4i-a10-$MACHINE.dtb"
+    if [ "${FSTYPE:0:3}" = "ext" -o "${FSTYPE:0:4}" = "cpio" ]; then
+        KERNCMDLINE="earlyprintk root=/dev/sda rw console=ttyS0"
+        QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS -device ide-drive,drive=sata,bus=ide.0 -drive file=$ROOTFS,if=none,id=sata"
     fi
 fi
 

@@ -110,7 +110,7 @@ while true; do
     arg=${1}
     case "$arg" in
         "qemux86" | "qemux86-64" | "qemuarm" | "qemuarm64" | "qemumips" | "qemumipsel" | \
-        "qemumips64" | "qemush4"  | "qemuppc" | "qemumicroblaze" | "qemuzynq")
+        "qemumips64" | "qemush4"  | "qemuppc" | "qemumicroblaze" | "qemuzynq" | "cubieboard")
             [ -z "$MACHINE" ] && MACHINE=$arg || \
                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
             ;;
@@ -337,6 +337,9 @@ AKITA_DEFAULT_FSTYPE=jffs2
 
 SPITZ_DEFAULT_KERNEL=zImage-spitz.bin
 SPITZ_DEFAULT_FSTYPE=ext3
+
+CUBIEBOARD_DEFAULT_KERNEL=uImage
+CUBIEBOARD_DEFAULT_FSTYPE=ext3
 
 setup_path_vars() {
     if [ -z "$OE_TMPDIR" ] ; then
