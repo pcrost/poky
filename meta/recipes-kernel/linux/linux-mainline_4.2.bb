@@ -19,7 +19,12 @@ PV = "4.2.1"
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;protocol=git;branch=${BRANCH}"
 
 kernel_do_configure_prepend() {
-	cp ${S}/arch/arm/configs/multi_v7_defconfig ${B}/.config
+	rm -f ${B}.config_extra
+	echo "CONFIG_VIRTIO_PCI=y" >> ${B}.config_extra
+	echo "CONFIG_VIRTIO_BLK=y" >> ${B}.config_extra
+	echo "CONFIG_VIRTIO_NET=y" >> ${B}.config_extra
+	ARCH=arm ${S}/scripts/kconfig/merge_config.sh -m -O ${B} ${S}/arch/arm/configs/multi_v7_defconfig ${B}.config_extra
+	sed 's/^\(.*\)=m$/# \1 is not set/' -i ${B}/.config
 }
 
 KERNEL_DEVICETREE = "zynq-zc702.dtb \
