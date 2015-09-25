@@ -386,6 +386,20 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
         QEMU_OPTIONS="$QEMU_OPTIONS -device ide-drive,drive=sata,bus=ide.0"
         QEMU_DRIVE_OPTIONS=",if=none,id=sata"
         ;;
+    highbank)
+        KERNCMDLINE_CONSOLE="ttyAMA0"
+        QEMU_UI_OPTIONS="-nographic -serial mon:stdio"
+        QEMU_OPTIONS="-dtb ${KERNEL}-highbank.dtb"
+        QEMU_OPTIONS="$QEMU_OPTIONS -device ide-drive,drive=sata,bus=ide.0"
+        QEMU_DRIVE_OPTIONS=",if=none,id=sata"
+        ;;
+    midway)
+        KERNCMDLINE_CONSOLE="ttyAMA0"
+        QEMU_UI_OPTIONS="-nographic -serial mon:stdio"
+        QEMU_OPTIONS="-dtb ${KERNEL}-ecx-2000.dtb"
+        QEMU_OPTIONS="$QEMU_OPTIONS -device ide-drive,drive=sata,bus=ide.0"
+        QEMU_DRIVE_OPTIONS=",if=none,id=sata"
+        ;;
     virt)
         KERNCMDLINE_CONSOLE="ttyAMA0"
         KERNCMDLINE_ROOTDEV="/dev/vda"
