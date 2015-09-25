@@ -382,6 +382,13 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
         QEMU_UI_OPTIONS="-nographic -serial mon:stdio"
         QEMU_OPTIONS="-dtb ${KERNEL}-vexpress-v2p-ca15-tc1.dtb"
         ;;
+    smdkc210)
+        KERNCMDLINE_CONSOLE="ttySAC0"
+        QEMU_UI_OPTIONS="-nographic -serial mon:stdio"
+        QEMU_OPTIONS="-dtb ${KERNEL}-exynos4210-smdkv310.dtb"
+        QEMU_OPTIONS="$QEMU_OPTIONS -device usb-storage,drive=usb"
+        QEMU_DRIVE_OPTIONS=",if=none,id=usb"
+        ;;
     xilinx-zynq-a9)
         KERNCMDLINE_CONSOLE="ttyPS0"
         KERNCMDLINE_ROOTDEV="/dev/mmcblk0"
