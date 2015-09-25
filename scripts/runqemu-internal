@@ -379,6 +379,13 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
         QEMU_OPTIONS="-dtb ${KERNEL}-zynq-zc702.dtb"
         QEMU_DRIVE_OPTIONS=",if=sd"
         ;;
+    cubieboard)
+        KERNCMDLINE_CONSOLE="ttyS0"
+        QEMU_UI_OPTIONS="-nographic -serial mon:stdio"
+        QEMU_OPTIONS="-dtb ${KERNEL}-sun4i-a10-cubieboard.dtb"
+        QEMU_OPTIONS="$QEMU_OPTIONS -device ide-drive,drive=sata,bus=ide.0"
+        QEMU_DRIVE_OPTIONS=",if=none,id=sata"
+        ;;
     *)
         echo "ERROR: Invalid machine sub-type type: $MACHINE_SUBTYPE"
         cleanup
