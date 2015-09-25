@@ -386,6 +386,12 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
         QEMU_OPTIONS="$QEMU_OPTIONS -device ide-drive,drive=sata,bus=ide.0"
         QEMU_DRIVE_OPTIONS=",if=none,id=sata"
         ;;
+    virt)
+        KERNCMDLINE_CONSOLE="ttyAMA0"
+        KERNCMDLINE_ROOTDEV="/dev/vda"
+        QEMU_OPTIONS="-device virtio-net-pci,vlan=0"
+        QEMU_UI_OPTIONS="-nographic -serial mon:stdio"
+        ;;
     *)
         echo "ERROR: Invalid machine sub-type type: $MACHINE_SUBTYPE"
         cleanup
