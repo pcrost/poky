@@ -372,6 +372,13 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
     versatilepb)
         KERNCMDLINE_CONSOLE="ttyAMA0"
         ;;
+    xilinx-zynq-a9)
+        KERNCMDLINE_CONSOLE="ttyPS0"
+        KERNCMDLINE_ROOTDEV="/dev/mmcblk0"
+        QEMU_UI_OPTIONS="-nographic -serial null -serial mon:stdio"
+        QEMU_OPTIONS="-dtb ${KERNEL}-zynq-zc702.dtb"
+        QEMU_DRIVE_OPTIONS=",if=sd"
+        ;;
     *)
         echo "ERROR: Invalid machine sub-type type: $MACHINE_SUBTYPE"
         cleanup
