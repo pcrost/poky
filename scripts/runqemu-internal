@@ -372,6 +372,16 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
     versatilepb)
         KERNCMDLINE_CONSOLE="ttyAMA0"
         ;;
+    vexpress-a9)
+        KERNCMDLINE_CONSOLE="ttyAMA0"
+        QEMU_UI_OPTIONS="-nographic -serial mon:stdio"
+        QEMU_OPTIONS="-dtb ${KERNEL}-vexpress-v2p-ca9.dtb"
+        ;;
+     vexpress-a15)
+        KERNCMDLINE_CONSOLE="ttyAMA0"
+        QEMU_UI_OPTIONS="-nographic -serial mon:stdio"
+        QEMU_OPTIONS="-dtb ${KERNEL}-vexpress-v2p-ca15-tc1.dtb"
+        ;;
     xilinx-zynq-a9)
         KERNCMDLINE_CONSOLE="ttyPS0"
         KERNCMDLINE_ROOTDEV="/dev/mmcblk0"
