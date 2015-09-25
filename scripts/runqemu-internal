@@ -363,7 +363,9 @@ fi
 
 if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarmv7" ]; then
     QEMU=qemu-system-arm
-    MACHINE_SUBTYPE=versatilepb
+    if [ -z ${MACHINE_SUBTYPE+x} ]; then
+        MACHINE_SUBTYPE=versatilepb
+    fi
     export QEMU_AUDIO_DRV="none"
     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
