@@ -366,14 +366,15 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
     if [ -z ${MACHINE_SUBTYPE+x} ]; then
         MACHINE_SUBTYPE=versatilepb
     fi
+    KERNCMDLINE_ROOTDEV="/dev/sda"
     export QEMU_AUDIO_DRV="none"
     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
     QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} --no-reboot $QEMU_UI_OPTIONS"
     KERNCMDLINE="console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-        KERNCMDLINE="$KERNCMDLINE root=/dev/sda rw"
-        QEMUOPTIONS="$QEMUOPTIONS -drive file=$ROOTFS,format=raw"
+        KERNCMDLINE="$KERNCMDLINE root=$KERNCMDLINE_ROOTDEV rw"
+        QEMUOPTIONS="$QEMUOPTIONS -drive file=$ROOTFS,format=raw${QEMU_DRIVE_OPTIONS}"
     fi
     if [ "$FSTYPE" = "nfs" ]; then
         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
