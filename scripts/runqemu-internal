@@ -367,11 +367,23 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
         MACHINE_SUBTYPE=versatilepb
     fi
     KERNCMDLINE_ROOTDEV="/dev/sda"
+
+    case "$MACHINE_SUBTYPE" in
+    versatilepb)
+        KERNCMDLINE_CONSOLE="ttyAMA0"
+        ;;
+    *)
+        echo "ERROR: Invalid machine sub-type type: $MACHINE_SUBTYPE"
+        cleanup
+        return 1
+        ;;
+    esac
+
     export QEMU_AUDIO_DRV="none"
     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
     QEMUOPTIONS="$QEMU_OPTIONS $QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} --no-reboot $QEMU_UI_OPTIONS"
-    KERNCMDLINE="console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
+    KERNCMDLINE="console=${KERNCMDLINE_CONSOLE},115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
         KERNCMDLINE="$KERNCMDLINE root=$KERNCMDLINE_ROOTDEV rw"
         QEMUOPTIONS="$QEMUOPTIONS -drive file=$ROOTFS,format=raw${QEMU_DRIVE_OPTIONS}"
